@@ -1,0 +1,1 @@
+export const TriviaEndpoint ='amount=10'

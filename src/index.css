@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.transition-transform {
+    transition: transform 0.5s ease-in-out;
+  }
+  .transform {
+    transform: translateX(0);
+  }
+  .translate-x-full {
+    transform: translateX(100%);
+  }
+  .-translate-x-full {
+    transform: translateX(-100%);
+  }
+  
