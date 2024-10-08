@@ -1,10 +1,12 @@
 import CountdownTime from "../CountdownTime/CountdownTIme";
+// import Section from "../Section/section";
 import PageQuiz from "./PageQuiz";
 
 export default function Quiz() {
   return (
     <>
       <div className="flex">
+        {/* <Section /> */}
         <div className="min-h-screen w-full bg-gray-50 flex flex-col items-center justify-center p-4">
           <CountdownTime />
           <div className="rounded-lg shadow-md overflow-hidden max-w-6xl w-full bg-white">
