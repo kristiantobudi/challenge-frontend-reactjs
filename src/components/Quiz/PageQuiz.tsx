@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { dataQuiz } from "../../data/dataQuiz";
 import { Settings } from "./settings/setting";
 
@@ -8,10 +9,23 @@ export default function PageQuiz() {
     allAnswers,
     selectedAnswers,
     handleAnswerChange,
-    handlePrevious,
-    handleNext,
-    currentQuizIndex,
   } = Settings();
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    sessionStorage.removeItem("countdownMinutes");
+    sessionStorage.removeItem("countdownSeconds");
+
+    dataQuiz.forEach((quizItem, index) => {
+      const answerKey = `quiz-${quizItem.id}-answer`;
+      const answerValue = selectedAnswers[index];
+      if (answerValue) {
+        localStorage.setItem(answerKey, JSON.stringify(answerValue));
+      }
+    });
+
+    navigate("/quiz/results");
+  };
 
   return (
     <div className="flex flex-col justify-start px-4">
@@ -53,18 +67,10 @@ export default function PageQuiz() {
 
       <div className="flex justify-end gap-4 px-5 py-3">
         <button
-          onClick={handlePrevious}
-          disabled={currentQuizIndex === 0}
-          className="px-4 py-2 text-gray-800 bg-gray-200 rounded-md hover:bg-gray-300"
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={currentQuizIndex === dataQuiz.length - 1}
+          onClick={handleSubmit}
           className="px-4 py-2 text-white rounded-lg bg-lime-500 hover:bg-lime-600"
         >
-          Next
+          Submit
         </button>
       </div>
     </div>

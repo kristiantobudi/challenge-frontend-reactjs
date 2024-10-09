@@ -1,3 +1,5 @@
+import Navbar from "../Navbar/Navbar";
+
 export default function DefaultLayouts({
   children,
 }: {
@@ -5,13 +7,10 @@ export default function DefaultLayouts({
 }) {
   return (
     <>
-      <div className="flex">
-        <main>
-          <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-            {children}
-          </div>
-        </main>
-      </div>
+      <Navbar />
+      <main className="min-h-screen w-full">
+        <div>{children}</div>
+      </main>
     </>
   );
 }

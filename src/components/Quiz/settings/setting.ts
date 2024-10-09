@@ -7,20 +7,23 @@ export const Settings = () => {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState(true);
     const [currentQuizIndex, setCurrentQuizIndex] = useState<number | null>(null);
-    const [selectedAnswers, setSelectedAnswers] = useState<string | null>(null);
+    const [selectedAnswers, setSelectedAnswers] = useState<string>("");
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-    const quizIndex = dataQuiz.findIndex((quiz) => quiz.id === Number(id));
-    if (quizIndex === -1) {
-        setCurrentQuizIndex(null);
-    } else {
-        setCurrentQuizIndex(quizIndex);
-        const savedAnswers = localStorage.getItem(`quiz-${id}-answers`);
-        if (savedAnswers) {
-        setSelectedAnswers(JSON.parse(savedAnswers));
+        const quizIndex = dataQuiz.findIndex((quiz) => quiz.id === Number(id));
+
+        if (quizIndex === -1) {
+            setCurrentQuizIndex(null);
+        } else {
+            setCurrentQuizIndex(quizIndex);
+            const savedAnswers = localStorage.getItem(`quiz-${id}-answer`);
+
+            if (savedAnswers) {
+                const answersArray = JSON.parse(savedAnswers);
+                setSelectedAnswers(answersArray);
+            }
         }
-    }
     }, [id]);
 
     const quiz = currentQuizIndex !== null ? dataQuiz[currentQuizIndex] : null;
@@ -29,11 +32,11 @@ export const Settings = () => {
         ? [quizDetails.correct_answer, ...quizDetails.incorrect_answers]
         : [];
 
-    const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const answer = event.target.value;
-        setSelectedAnswers(answer);
-        localStorage.setItem(`quiz-${id}-answer`, JSON.stringify(answer));
-    };
+        const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const answer = event.target.value;
+            setSelectedAnswers(answer);
+            localStorage.setItem(`quiz-${id}-answer`, JSON.stringify(answer));
+        };
 
     const handleNext = () => {
         if (currentQuizIndex !== null && currentQuizIndex < dataQuiz.length - 1) {
@@ -45,33 +48,23 @@ export const Settings = () => {
         }
     };
 
-    const handlePrevious = () => {
-        if (currentQuizIndex !== null && currentQuizIndex > 0) {
-            setIsVisible(false);
-            setTimeout(() => {
-                navigate(`/quiz/${dataQuiz[currentQuizIndex - 1].id}`);
-                setIsVisible(true);
-            }, 500);
-        }
-    };
-
     const handleLogout = () => {
-        localStorage.removeItem("usename");
+        localStorage.removeItem("username"); // Corrected spelling
         localStorage.removeItem("password");
-        
+
         Object.keys(localStorage).forEach((key) => {
             if (key.startsWith("quiz-")) {
                 localStorage.removeItem(key);
             }
-        })
+        });
 
         navigate("/");
-      };
+    };
 
     const handlePageChange = (id: number) => {
         setCurrentPage(id);
         navigate(`/quiz/${id}`);
-    }
+    };
 
     return {
         isVisible,
@@ -81,9 +74,8 @@ export const Settings = () => {
         allAnswers,
         handleAnswerChange,
         handleNext,
-        handlePrevious,
         handleLogout,
         currentPage,
         handlePageChange
-    }
-}
+    };
+};

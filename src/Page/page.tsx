@@ -1,11 +1,12 @@
-import Navbar from "../components/Navbar/Navbar";
+import DefaultLayouts from "../components/Layout/DefaultLayout";
 import Quiz from "../components/Quiz/Quiz";
 
 export default function Page() {
   return (
     <>
-      <Navbar />
-      <Quiz />
+      <DefaultLayouts>
+        <Quiz />
+      </DefaultLayouts>
     </>
   );
 }

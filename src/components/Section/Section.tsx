@@ -1,7 +1,6 @@
 export default function Section() {
   const totalPages = 10;
 
-  // Get page numbers for pagination
   const getPageNumbers = () => {
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -10,10 +9,9 @@ export default function Section() {
     return pages;
   };
 
-  // Check if a quiz is answered by looking for the saved answer in localStorage
   const isQuizAnswered = (quizId: number) => {
     const savedAnswer = localStorage.getItem(`quiz-${quizId}-answer`);
-    return savedAnswer && savedAnswer !== ""; // Check if answer exists and is not empty
+    return savedAnswer && savedAnswer !== "";
   };
 
   return (

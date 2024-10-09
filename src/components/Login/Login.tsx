@@ -30,6 +30,7 @@ export const LoginForm = () => {
     if (data.username === "admin" && data.password === "admin") {
       localStorage.setItem("usename", data.username);
       localStorage.setItem("password", data.password);
+      sessionStorage.removeItem("countdownEndTime");
       navigate("/quiz/1");
     } else {
       alert("Invalid username or password!");

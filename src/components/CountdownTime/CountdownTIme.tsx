@@ -70,7 +70,21 @@ export default function CountdownTime() {
         if (intervalId.current) {
           clearInterval(intervalId.current);
         }
-        navigate("/quiz/completed");
+
+        // Redirect to results page with score
+        const correctAnswers = JSON.parse(
+          localStorage.getItem("correctAnswers") || "[]"
+        );
+        const selectedAnswers = JSON.parse(
+          localStorage.getItem("selectedAnswers") || "[]"
+        );
+        const score = correctAnswers.filter((answer: string) =>
+          selectedAnswers.includes(answer)
+        ).length;
+
+        navigate("/quiz/results", {
+          state: { score, correctAnswers, selectedAnswers },
+        });
       } else {
         changeCircleOffset(seconds, minutes);
         setCountDownTime({
@@ -83,8 +97,8 @@ export default function CountdownTime() {
   );
 
   const startCountDown = useCallback(() => {
-    const endTime = new Date().getTime() + 10 * 60 * 1000; // 10 minutes from now
-    saveEndTimeToSession(endTime); // Save end time to session storage
+    const endTime = new Date().getTime() + 10 * 60 * 1000;
+    saveEndTimeToSession(endTime);
 
     intervalId.current = setInterval(() => {
       getTimeDifference(endTime);
@@ -99,7 +113,7 @@ export default function CountdownTime() {
         getTimeDifference(savedEndTime);
       }, 1000);
     } else {
-      startCountDown(); // Start a new countdown if no saved time
+      startCountDown();
     }
 
     return () => {
