@@ -1,41 +1,15 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-interface LoginFormInputs {
-  username: string;
-  password: string;
-}
+import { LoginSettings } from "./loginSettings";
 
 export const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   const {
+    showPassword,
+    toggleShowPassword,
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>({
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = (data: LoginFormInputs) => {
-    if (data.username === "admin" && data.password === "admin") {
-      localStorage.setItem("usename", data.username);
-      localStorage.setItem("password", data.password);
-      sessionStorage.removeItem("countdownEndTime");
-      navigate("/quiz/1");
-    } else {
-      alert("Invalid username or password!");
-    }
-  };
+    onSubmit,
+    errors,
+  } = LoginSettings();
 
   return (
     <div className="flex items-center justify-center w-full min-h-screen p-4 bg-gray-50">

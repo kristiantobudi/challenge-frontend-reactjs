@@ -1,45 +1,11 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import DefaultLayouts from "../components/Layout/DefaultLayout";
 import { Settings } from "../components/Quiz/settings/setting";
 import { dataQuiz } from "../data/dataQuiz";
+import { ResultSetting } from "./ResultSetting";
 
 export default function ResultPage() {
   const { isVisible } = Settings();
-  const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
-  const [score, setScore] = useState(0);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Load answers from local storage
-    const loadedAnswers: { [key: number]: string } = {};
-    let correctCount = 0;
-
-    dataQuiz.forEach((quizItem) => {
-      const storedAnswer = localStorage.getItem(`quiz-${quizItem.id}-answer`);
-      if (storedAnswer) {
-        const parsedAnswer = JSON.parse(storedAnswer);
-        loadedAnswers[quizItem.id] = parsedAnswer;
-
-        // Check if the answer is correct
-        if (parsedAnswer === quizItem.results[0].correct_answer) {
-          correctCount++;
-        }
-      }
-    });
-
-    setUserAnswers(loadedAnswers);
-    setScore(correctCount);
-  }, []);
-
-  const handleReQuiz = () => {
-    dataQuiz.forEach((quizItem) => {
-      localStorage.removeItem(`quiz-${quizItem.id}-answer`);
-    });
-
-    sessionStorage.removeItem("countdownEndTime");
-    navigate("/quiz/1");
-  };
+  const { userAnswers, score, handleReQuiz } = ResultSetting();
 
   return (
     <DefaultLayouts>
