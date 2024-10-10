@@ -55,7 +55,7 @@ export const CountdownTimeSetting = () => {
           const timeDifference = countDownDate - currentTime;
     
           const minutes = Math.floor(
-            (timeDifference % (2 * 60 * 1000)) / (1000 * 60)
+            (timeDifference % (60 * 60 * 1000)) / (1000 * 60)
           );
           const seconds = Math.floor((timeDifference % (60 * 1000)) / 1000);
     
