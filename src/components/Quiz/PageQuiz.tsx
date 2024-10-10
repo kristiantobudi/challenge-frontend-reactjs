@@ -9,20 +9,17 @@ export default function PageQuiz() {
     allAnswers,
     selectedAnswers,
     handleAnswerChange,
+    currentQuizIndex,
   } = Settings();
   const navigate = useNavigate();
-
   const handleSubmit = () => {
     sessionStorage.removeItem("countdownMinutes");
     sessionStorage.removeItem("countdownSeconds");
-
-    dataQuiz.forEach((quizItem, index) => {
-      const answerKey = `quiz-${quizItem.id}-answer`;
-      const answerValue = selectedAnswers[index];
-      if (answerValue) {
-        localStorage.setItem(answerKey, JSON.stringify(answerValue));
-      }
-    });
+    if (currentQuizIndex !== null && selectedAnswers) {
+      const currentQuiz = dataQuiz[currentQuizIndex];
+      const answerKey = `quiz-${currentQuiz.id}-answer`;
+      localStorage.setItem(answerKey, JSON.stringify(selectedAnswers));
+    }
 
     navigate("/quiz/results");
   };

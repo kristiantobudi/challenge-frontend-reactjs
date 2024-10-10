@@ -49,7 +49,7 @@ export const Settings = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("username"); // Corrected spelling
+        localStorage.removeItem("username");
         localStorage.removeItem("password");
 
         Object.keys(localStorage).forEach((key) => {
